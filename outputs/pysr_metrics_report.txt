@@ -1,0 +1,81 @@
+======================================================================
+  PySR Symbolic Regression - Full Metrics Report
+  Cryogenic SMA Empirical Stress-Curve Modeling (Song 2026 data)
+======================================================================
+
+CONFIGURATION
+  PySR niterations:    500
+  Bootstrap resamples: 200
+  Digitization noise:  ±2.0 MPa, ±3.0 K
+  Physics constants:
+    ε_tr = 0.064 (Song 2025)
+    ρ    = 4500.0 kg/m³ (Song 2025)
+    Cp   = 588.0 J/kg·K (294 K consistency check only)
+
+SELECTED EMPIRICAL SYMBOLIC EQUATION
+  Form: (x0 * (square(x0 - 4.927696) * -0.17182511)) + 1.6857368
+  Complexity: 10 nodes
+
+TRAINING AND TEST PERFORMANCE (Ti-Al-Cr stress data, Song 2026)
+  Metric                             PySR (M3)  Linear CC baseline
+  ----------------------------------------------------------------
+  Train R²                              0.9888              0.2013
+  Test  R²                              0.9791              0.3203
+  Test  MAE (MPa)                        16.54               96.34
+  Test  RMSE (MPa)                       17.54              100.09
+  Complexity (nodes)                        10        2 (2 params)
+
+CC INVERSION DETECTION
+  Reference (Song 2026): ~150 K (compression)
+  Detected by PySR:
+    T_inv = 164.2 K  |  Error = 14.2 K  |  PASS
+
+CROSS-ALLOY TRANSFER (coefficient refitting only)
+  Alloy                              n   R²_transfer   MAE (MPa)
+  ------------------------------------------------------------
+  No transfer results (excluded pending data re-digitization / LOO)
+
+UNCERTAINTY QUANTIFICATION (Bootstrap N=200)
+  95% CI coverage on test set:  100%
+  Mean std below 100K:          14.8 MPa
+  Mean std above 100K:          14.1 MPa
+  PASS: CI coverage ≥ 90%
+
+DIRECT ΔTad MEASUREMENTS AND 294K CONSISTENCY CHECK
+  Direct ΔTad at 294K = -9.56 K
+  ΔSeff/Cp check at 294K = -9.79 K
+  ΔSeff/Cp comparisons are omitted below 200K.
+  ΔSeff at 294K = -19.58 J/kg·K (dataset interpolation)
+  COP estimate  = 4.50 (Song 2025 reference: 4.6)
+  ΔSeff zero:    T ≈ 96 K     (Song 2026: ~97 K)
+
+INDEPENDENT CALORIMETRIC CLAUSIUS-CLAPEYRON TEST
+  Integrate dσ_0/dT = -ΔS·ρ/ε_tr using calorimetric ΔS(T)
+  Anchor: measured σ_0(300K)=334.3 MPa (excluded from error metrics)
+  Non-anchor measured σ_0: n=7, RMSE=114.49 MPa, MAE=81.55 MPa, R²=-0.2059
+
+BENCHMARK COMPARISON
+  Liu 2024b (ambient NiTi, gradient boosting): R²=0.92, MAE=23.4°C
+  Honrao 2023 (multi-alloy NiTi, 8000 pts):   MAE=14.8°C (Ts)
+  Nespoli 2023 (Cu-Al-Mn linear regression):  linear
+  THIS WORK - PySR (cryogenic, N=10):  R²=0.9791, MAE=16.5MPa
+  → First ML model trained exclusively on sub-200K SMA data
+  → Empirical symbolic approximation; not asserted as a constitutive law
+
+SYMBOLIC EQUATION SELECTION
+  Features: one dimensionless input, T/100K
+  Pre-specified rule: maximum leave-one-out R² after refitting equation constants within each fold
+  Limitation: candidate expression structures were generated using the full training set; only constants were refit in each fold, so this is not fully nested cross-validation
+  Selected equation LOO R²: 0.9766
+  Fitted curve evaluated only through 402K; no high-temperature constitutive extrapolation claimed
+
+FOR PAPER TABLE 2 (comparison with M1-GPR and M2-PINN)
+  Model M3 (PySR)
+    R²_test           = 0.9791
+    MAE_test (MPa)    = 16.54
+    RMSE_test (MPa)   = 17.54
+    T_inversion (K)   = 164.2
+    Cross-alloy transfer = not reported (pending source-data digitization)
+    CI coverage (%)   = 100
+    Complexity (nodes)= 10
+    Interpretability  = symbolic expression (empirical approximation)

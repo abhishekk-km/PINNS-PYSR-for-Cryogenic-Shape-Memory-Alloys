@@ -1,0 +1,39 @@
+L1  Maxwell self-test passed. alpha_M=0.1875 (zero stress), alpha_C=0.4499 (critical); s_max=0.13140
+L1  Landau fit: params Sigma=4843 A0=0.0414 T0=136.8 Ts=300.0 K=2.40 tG=83.1
+    in-sample MAPE 3.18%  MAE 10.09 MPa | T_inv=135.0 K | dz/dT sign change at [135.] K
+    slope 20-100 K -2.24  250-400 K +1.44 MPa/K | slope at 20 K -1.315 (third law -> 0 as T->0)
+
+L3  LOO (sigma_0), mean absolute percentage error and MAE
+  GP          MAPE 1.63%  MAE 4.86 MPa
+  Barrett-GP  MAPE 1.68%  MAE 5.02 MPa
+  Landau      MAPE 7.59%  MAE 28.89 MPa
+  Landau-GP   MAPE 4.22%  MAE 16.48 MPa
+
+L3  Extrapolation from higher-temperature data (train T>=cut), held points below the cut
+  cut 150 K GP          MAPE   47.5%  slope pred +0.65 obs -1.51 sign_ok=False
+  cut 150 K Barrett-GP  MAPE   46.4%  slope pred +0.59 obs -1.51 sign_ok=False
+  cut 150 K Landau      MAPE   77.7%  slope pred +1.01 obs -1.51 sign_ok=False
+  cut 150 K Landau-GP   MAPE   69.1%  slope pred +1.20 obs -1.51 sign_ok=False
+  cut 100 K GP          MAPE   23.2%  slope pred -0.54 obs -3.07 sign_ok=True
+  cut 100 K Barrett-GP  MAPE   24.1%  slope pred -0.47 obs -3.07 sign_ok=True
+  cut 100 K Landau      MAPE   25.1%  slope pred -1.41 obs -3.07 sign_ok=True
+  cut 100 K Landau-GP   MAPE   13.4%  slope pred -1.60 obs -3.07 sign_ok=True
+
+L2  Digitisation Monte Carlo (120 draws: T +-3 K, stress +-2 MPa)
+  T_inv Landau median 123.0 K  95% [116.0, 140.0]
+  T_inv Barrett-GP median 146.0 K  95% [135.8, 164.0]
+
+L4  kappa = 2.808 95% [2.703, 2.956] | T_min kappa=1: nan K, kappa fitted: 103.6 K, measured Seff: 96.1 K
+    rho/eps_tr scale factor f = 0.698 95% [0.486, 0.889] (f=1: rho=4500, eps=0.064 consistent above 250 K)
+    Debye Cp: gamma=0.1603 theta=274 K | LOO dTad (|dT|>=2 K): Debye MAPE 6.3% MAE 0.33 K ; constant-588 MAPE 14.6% MAE 0.82 K
+    Landau excess entropy  dS_cal - dS_Landau(CC)  (J/kg/K) and heat-equivalent T*excess (J/kg)
+        50 K   -56.26       -2813
+       100 K   -32.89       -3289
+       150 K   -19.71       -2956
+       200 K   -13.12       -2625
+       300 K    -6.93       -2080
+       400 K   -12.05       -4819
+    conformal Barrett-GP: PICP(1.96)=0.85, inflation x1.81 for 95% LOO coverage
+    conformal GP        : PICP(1.96)=0.85, inflation x1.73 for 95% LOO coverage
+
+L5  Held-out sigma_Ms MAPE by model: GP 0.93%, Barrett-GP 1.00%, Landau 6.58%, Landau-GP 3.60%, PySR 4.26%, PINN 30.80%
