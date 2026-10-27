@@ -4,9 +4,7 @@ Code and digitised data accompanying the manuscript "Physics-Informed Surrogates
 Anomalous Clausius-Clapeyron Inversion in Cryogenic Ti-Al-Cr Shape Memory Alloys" (Mishra and Gautam, Department of
 Mechanical Engineering, Delhi Technological University).
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
 
-Archived release (code, digitised data and model outputs): https://doi.org/10.5281/zenodo.XXXXXXX
 Development repository: https://github.com/abhishekk-km/PINNS-PYSR-for-Cryogenic-Shape-Memory-Alloys
 
 ## What this repository does
